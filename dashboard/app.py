@@ -16,6 +16,20 @@ st_autorefresh(interval=10000, key="datarefresh")
 
 
 st.title("🛒 Real-Time E-commerce Sales Dashboard")
+# -------------------------
+# FILTERS
+# -------------------------
+st.sidebar.header("Filters")
+
+selected_region = st.sidebar.selectbox(
+    "Select Region",
+    ["All", "North", "South", "East", "West"]
+)
+
+selected_category = st.sidebar.selectbox(
+    "Select Category",
+    ["All", "Electronics", "Fashion", "Home", "Books", "Grocery"]
+)
 st.caption(f"Last updated: {datetime.now().strftime('%H:%M:%S')}")
 
 # -------------------------
@@ -56,8 +70,12 @@ st.subheader("📦 Revenue by Category")
 cat_data = safe_get("/metrics/sales-by-category")
 
 if isinstance(cat_data, list) and len(cat_data) > 0:
-    df_cat = pd.DataFrame(cat_data)
-    st.bar_chart(df_cat.set_index("category")["revenue"])
+  df_cat = pd.DataFrame(cat_data)
+
+if selected_category != "All":
+    df_cat = df_cat[df_cat["category"] == selected_category]
+
+st.bar_chart(df_cat.set_index("category")["revenue"])  
 else:
     st.info("No category data available")
 
@@ -71,8 +89,12 @@ st.subheader("🌍 Revenue by Region")
 region_data = safe_get("/metrics/sales-by-region")
 
 if isinstance(region_data, list) and len(region_data) > 0:
-    df_region = pd.DataFrame(region_data)
-    st.bar_chart(df_region.set_index("region")["revenue"])
+  df_region = pd.DataFrame(region_data)
+
+if selected_region != "All":
+    df_region = df_region[df_region["region"] == selected_region]
+
+st.bar_chart(df_region.set_index("region")["revenue"])
 else:
     st.info("No region data available")
 
