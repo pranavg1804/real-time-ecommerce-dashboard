@@ -8,7 +8,7 @@ app = FastAPI(title="E-commerce Analytics API")
 # -----------------------------
 def get_db_connection():
     return psycopg2.connect(
-        host="localhost",
+        host="db",
         database="ecommerce",
         user="admin",
         password="admin123",

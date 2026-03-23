@@ -9,7 +9,7 @@ app = FastAPI(title="Backend Order API")
 # -----------------------------
 def get_db_connection():
     return psycopg2.connect(
-        host="localhost",
+        host="db",
         database="ecommerce",
         user="admin",
         password="admin123",

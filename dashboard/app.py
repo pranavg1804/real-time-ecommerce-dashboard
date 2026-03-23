@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 from streamlit_autorefresh import st_autorefresh
 
-API_BASE = "http://127.0.0.1:8001"
+API_BASE = "http://api:8001"
 
 st.set_page_config(
     page_title="Real-Time E-commerce Dashboard",
