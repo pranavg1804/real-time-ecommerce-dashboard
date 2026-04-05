@@ -1,5 +1,18 @@
+# Environment — never commit credentials
+.env
+
+# Python
 __pycache__/
-.venv/
-env/
-.pgdata/
 *.pyc
+*.pyo
+.venv/
+venv/
+
+# Docker volumes
+pgdata/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store

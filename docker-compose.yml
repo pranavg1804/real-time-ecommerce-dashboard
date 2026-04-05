@@ -1,23 +1,26 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:15
     container_name: ecommerce_db
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: ecommerce
+    env_file: .env
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ecommerce"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   api:
     build: ./api
     container_name: ecommerce_api
+    env_file: .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8001:8001"
 
